@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="full-screen" content="yes">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <title>2017 Ormco Forum</title>
+    <style>
+        body,html{
+            padding:0;
+            margin: 0;
+            position: relative;
+        }
+        #success{
+            width: 100vw;
+            height: 100vh;
+            background: url("img/success.png");
+            background-size: 100% 100%;
+            position: absolute;
+            top:0;
+            left:0;
+            font-size: 0.46rem;
+            display: none;
+        }
+        #success #success_box{
+            position: absolute;
+            bottom: 1.6rem;
+            left: 50%;
+            margin-left: -2.5rem;
+        }
+        #success #success_box div{
+            width: 5rem;
+            font-width:700;
+            color: red;
+            text-align: center;
+        }
+        #fail{
+            width: 100vw;
+            height: 100vh;
+            background: url("img/fail.png");
+            background-size: 100% 100%;
+            position: absolute;
+            top:0;
+            left:0;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+<div id="success">
+    <div id="success_box">
+        <div>恭喜您,三关全部通过</div>
+        <div style="padding-top: 0.2rem">总耗时:<span id="use">1分15秒</span></div>
+    </div>
+
+</div>
+<div id="fail"></div>
+</body>
+<script src="js/common.js"></script>
+<script src="js/cookie.js"></script>
+<script type="text/javascript" src="js/ajax.js" ></script>
+<script>
+    (function () {
+    	
+        var fail=document.getElementById("fail");
+        var used=document.getElementById("use")
+        var sucss=document.getElementById("success")
+        var Urlflag=getUrlParam("flag");
+        var successed= localStorage.getItem("successed");
+        var nameVal=localStorage.getItem("game_Name");
+        var phoneVal=localStorage.getItem("game_Phone");
+        var allTime=localStorage.getItem("allTime");
+        
+        var cooksuccessed=getCookie('successed');
+        var cooknameVal=getCookie('game_Name');
+        var cookphoneVal=getCookie('game_Phone');
+        var cookallTime=getCookie('allTime');
+        
+        
+        
+        var box=document.getElementById("success_box");
+        
+        
+    	if(successed=="true"||cooksuccessed=='true'){
+    		var TJshuju=localStorage.getItem("shuju");
+    		var cookTJshuju=getCookie("shuju");
+    		if(TJshuju!="true"&&cookTJshuju!="true"){
+    			if(nameVal==""){
+    				nameVal=cooknameVal;
+    			};
+    			if(phoneVal==''){
+    				phoneVal=cookphoneVal;
+    			};
+    			if(allTime==''){
+    				phoneVal=cookallTime;
+    			}
+    			var param2 = JSON.stringify({
+                    "cid": 11,
+                    "game": 'pintu',
+                    "name":nameVal,
+                    "phone":phoneVal,
+                    "time":allTime
+                });
+                ajax({
+                    'metod':'post',
+                    'url':'http://101.200.234.55:8080/medapp/api/con/game/partin',
+                    'data' : param2,
+                    'aysn':'true',
+                    'fn':function(res){
+                        console.log(res); 
+                        localStorage.setItem("shuju",true);
+                        setCookie('shuju',true,365);
+                    }
+                });
+    		}
+    		 
+    		sucss.style.display="block";
+    	}
+        if(Urlflag==1){
+            fail.style.display="block";
+        }else{
+        	sucss.style.display="block";
+        var minute=localStorage.getItem("minute");
+        var second=localStorage.getItem("second");
+        var millisecond=localStorage.getItem("millisecond");
+        
+        var cookminute=getCookie("minute");
+        var cooksecond=getCookie("second");
+        var cookmillisecond=getCookie("millisecond");
+        if((minute==null||minute=='')&&(cookminute==null||cookminute=='')){
+            box.style.display='none';
+        }else{
+        	if(minute==null||minute==''){
+        		minute=cookminute;
+        	};
+        	if(second==null||second==''){
+        		second=cooksecond;
+        	}
+        	if(millisecond==null||millisecond==''){
+        		millisecond=cookmillisecond;
+        	}
+            box.style.display='block';
+            var useTime=minute+"分"+second+"秒"+millisecond+"毫秒";
+            used.innerHTML=useTime;
+        }
+        };
+       
+
+    })()
+
+</script>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="full-screen" content="yes">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <title>Title</title>
+</head>
+<body>
+<input style="width: 4rem;height: 1rem;margin-top: 3rem; margin-left:1.5rem ; font-size: 0.4rem" id="ipt" type="button" value="点击清理缓存" />
+</body>
+<script src="js/common.js"></script>
+<script src="js/cookie.js"></script>
+<script>
+    (function(){
+        var Ipt=document.getElementById("ipt");
+        Ipt.onclick=function(){
+           
+            alert(1)
+            localStorage.clear();
+            setCookie('minute','',-1);
+			setCookie('second','',-1);
+			setCookie('millisecond','',-1);
+			setCookie('successed','',-1);
+			setCookie('allTime','',-1);
+			setCookie('game_Name','',-1);
+            setCookie('game_Phone','',-1);
+            setCookie('shuju','',-1);
+                   
+            
+        }
+    })()
+</script>
+</html>
